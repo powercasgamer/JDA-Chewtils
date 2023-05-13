@@ -58,18 +58,18 @@ allprojects {
         // Helper task that allows us to do a one-line method call to fully
         //configure a jar task. This prevents possible build inconsistencies.
         configureJar = { Object jarConfig, String classifier = '' ->
-            jarConfig.baseName = "$project.artifactId"
-            jarConfig.version = "$project.version"
-            jarConfig.classifier = classifier
-            jarConfig.extension = 'jar'
+            // jarConfig.baseName = "$project.artifactId"
+            // jarConfig.version = "$project.version"
+            // jarConfig.classifier = classifier
+            // jarConfig.extension = 'jar'
 
-            jarConfig.manifest {
-                it.attributes(
-                        'Implementation-Title': project.artifactId,
-                        'Implementation-Version': project.version,
-                        'Automatic-Module-Name': "${project.moduleName}"
-                )
-            }
+            // jarConfig.manifest {
+            //     it.attributes(
+            //             'Implementation-Title': project.artifactId,
+            //             'Implementation-Version': project.version,
+            //             'Automatic-Module-Name': "${project.moduleName}"
+            //     )
+            // }
         }
 
         // Similar to the extension above, helps keep javadoc
@@ -99,7 +99,7 @@ allprojects {
         // Trying to specify these at "script-refresh" time
         //will cause the refresh to fail.
         dependsOn { javadocJar }
-        dependsOn { sourceJar }
+        // dependsOn { sourceJar }
         dependsOn { shadowJar }
     }
 
@@ -220,7 +220,7 @@ task javadoc(type: Javadoc) {
     source = { subprojects*.sourceSets.main.allJava }
     classpath = files(subprojects*.javadoc.classpath)
 
-    destinationDir = file("$buildDir/docs/")
+    // destinationDir = file("$buildDir/docs/")
 
     configureJavadoc(it)
 }
@@ -233,7 +233,7 @@ task jar(type: ShadowJar) {
     configureJar(it)
 
     from { subprojects*.jar }
-    destinationDir = file("$buildDir/libs/")
+    // destinationDir = file("$buildDir/libs/")
 }
 
 task shadowJar(type: ShadowJar) {
@@ -244,7 +244,7 @@ task shadowJar(type: ShadowJar) {
     configureJar(it, 'all')
 
     from { subprojects*.jar }
-    destinationDir = file("$buildDir/libs/")
+    // destinationDir = file("$buildDir/libs/")
 }
 
 task javadocJar(type: Jar) {
@@ -254,18 +254,18 @@ task javadocJar(type: Jar) {
     configureJar(it, 'javadoc')
 
     from { javadoc.destinationDir }
-    destinationDir = file("$buildDir/libs/")
+    // destinationDir = file("$buildDir/libs/")
 }
 
-task sourceJar(type: Jar) {
-    group = 'build'
-    dependsOn { rootProject.getTasksByName('classes', true) }
+// task sourceJar(type: Jar) {
+//     group = 'build'
+//     // dependsOn { rootProject.getTasksByName('classes', true) }
 
-    configureJar(it, 'sources')
+//     // configureJar(it, 'sources')
 
-    from { subprojects*.sourceSets.main.allSource }
-    destinationDir = file("$buildDir/libs/")
-}
+//     // from { subprojects*.sourceSets.main.allSource }
+//     // destinationDir = file("$buildDir/libs/")
+// }
 
 task clean(type: Delete) {
     group = 'build'
