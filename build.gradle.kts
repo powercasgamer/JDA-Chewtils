@@ -7,12 +7,6 @@ plugins {
 subprojects {
     apply<JavaLibraryPlugin>()
 
-    java {
-        toolchain {
-            languageVersion.set(JavaLanguageVersion.of(11))
-        }
-    }
-
     repositories {
         mavenCentral()
         maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
